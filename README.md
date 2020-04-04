@@ -51,7 +51,7 @@ This is a crowdsourced work and contains errors in it:
     "id":             "57363293012e2f140011a21a",
     "question":       "What percent of sales are contributed by hunters?",
     "answer_text":    "eighty-seven",
-                      @ should be "eighty-seven percent"
+                      # should be "eighty-seven percent"
 }
 ```
 
@@ -60,7 +60,7 @@ This is a crowdsourced work and contains errors in it:
     "id":             "56cd96c162d2951400fa6758",
     "question":       "How long did it take to implement riding horses in a believable manner?",
     "answer_text":    "four",
-                      @ should be "four months"
+                      # should be "four months"
 }
 ```
 
@@ -71,7 +71,7 @@ This is a crowdsourced work and contains errors in it:
     "id":             "56e79aa800c9c71400d77370",
     "question":       "1989?",
     "answer_text":    "Saturday",
-                      @ should be "No answer"
+                      # should be "No answer"
 }
 ```
 
@@ -81,7 +81,7 @@ This is a crowdsourced work and contains errors in it:
     "id":             "56f8a6c39b226e1400dd0d54",
     "question":       "2007?",
     "answer_text":    "3,570",
-                      @ should be "No answer"
+                      # should be "No answer"
 }
 ```
 
@@ -94,7 +94,7 @@ This is a crowdsourced work and contains errors in it:
     "id":             "5709ee056d058f1900182c37",
     "question":       "What was the monetary base value in 1994?",
     "answer_text":    "400 billion dollars",
-                      @ better be "approximately 400 billion dollars"
+                      # better be "approximately 400 billion dollars"
 }
 ```
 
@@ -103,7 +103,7 @@ This is a crowdsourced work and contains errors in it:
     "id":             "570a4f184103511400d59605",
     "question":       "How much did the Grimm claim his employers said he should raise in grant money per year?",
     "answer_text":    "£200,000",
-                      @ better be "at least £200,000"
+                      # better be "at least £200,000"
 }
 ```
 
@@ -120,7 +120,7 @@ Using Google Translate (transforming the text into HTML with answer spans enclos
     "answer_text":      "是劇院",
     "question_orig":    "What industry is Broadway associated with?",
     "answer_text_orig": "the theater",
-                        @ should be "劇院"
+                        # should be "劇院"
 }
     
 ```
@@ -132,7 +132,7 @@ Using Google Translate (transforming the text into HTML with answer spans enclos
     "answer_text":      "幽靈》還是",
     "question_orig":    "Quantum is a division of what other organization? ",
     "answer_text_orig": "Spectre",
-                        @ should be "幽靈"
+                        # should be "幽靈"
 }
 ```
 
@@ -143,7 +143,7 @@ Using Google Translate (transforming the text into HTML with answer spans enclos
     "answer_text":      "2014",
     "question_orig":    "When did the term Nasara become used more in modern times?",
     "answer_text_orig": "July 2014",
-                        @ should be "2014年7月"
+                        # should be "2014年7月"
 }
 ```
 
