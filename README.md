@@ -89,10 +89,12 @@ This is a crowdsourced work and contains errors in it:
 ```
 
 ```python
+{
     "id":             "56cd96c162d2951400fa6758",
     "question":       "How long did it take to implement riding horses in a believable manner?",
     "answer_text":    "four",
                       # should be "four months"
+}
 ```
 
 
@@ -278,6 +280,7 @@ Google is trying to be smart though XD
 ## Chinese just do not speak like English since we are not mapping word to word
 
 ```python
+{
     "id":               "56d23d72b329da140004ec4c",
     "context":          "Regarding the monastic rules, the Buddha constantly reminds his hearers that it is the spirit that counts. ...",
     "question":         "佛陀提醒他的聽眾，那是什麼精神？",
