@@ -89,20 +89,20 @@ This is a crowdsourced work and contains errors in it:
 ```
 
 ```python
-{
     "id":             "56cd96c162d2951400fa6758",
     "question":       "How long did it take to implement riding horses in a believable manner?",
     "answer_text":    "four",
                       # should be "four months"
-}
 ```
 
 
 ```python
+{
     "question":       "For hydrogen what is the enthalpy of combustion?",
     "id":             "56e07476231d4119001ac17f",
     "answer_text":    "286 kJ/mol",
                       # should be "-286 kJ/mol"
+}
 ```
 
 
@@ -154,12 +154,43 @@ I want Choices Questions output the choice to me instead of relevant evidence
 ```python
 {
     'id':             '56de30cdcffd8e1900b4b650',
-    'answer_text':    'very high',
     'question':       'Is the top quartile of HDI considered "high" or "very high" human development?'
+    'answer_text':    'very high',
                       # this is a span answer though
 }
 ```
-             
+
+## Conversational Question 
+
+Actually there is another dataset CoQA, check it out!
+
+```python
+{
+    'id':             '573426864776f41900661980',
+    'question':       'What year was Montana's statehood approved?'
+    'answer_text':    '1889',
+},
+{
+    'id':             '573426864776f41900661980',
+    'question':       'What year was Montana's statehood approved? What other three states were approved in the same year?'
+    'answer_text':    'North Dakota, South Dakota and Washington',
+},
+```
+
+
+           
+## Multuple answer Extraction
+Since sometimes we have more than 1 correct answer, and they may not be placed together.
+
+```python
+{
+    'id':             'fake',
+    "context":        "... Peter is good at basketball, and he excels at volleyball too ..."
+    'question':       'Peter is good at playing what sport?'
+    'answer_text':    'basketball, and he excels at volleyball',
+                      # should be "basketball" and "volleyball"
+}
+```
 
 
 # Trying to translate to Chinese
