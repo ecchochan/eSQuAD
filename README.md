@@ -65,25 +65,13 @@ This is a crowdsourced work and contains errors in it:
 ```
 
 
-
 ```python
-{
-    "id":             "56e79aa800c9c71400d77370",
-    "question":       "1989?",
-    "answer_text":    "Saturday",
-                      # should be "No answer"
-}
+    "question":       "For hydrogen what is the enthalpy of combustion?",
+    "id":             "56e07476231d4119001ac17f",
+    "answer_text":    "286 kJ/mol",
+                      # should be "-286 kJ/mol"
 ```
 
-
-```python
-{
-    "id":             "56f8a6c39b226e1400dd0d54",
-    "question":       "2007?",
-    "answer_text":    "3,570",
-                      # should be "No answer"
-}
-```
 
 # Missing Information I want to recover
 
@@ -106,6 +94,37 @@ This is a crowdsourced work and contains errors in it:
                       # better be "at least £200,000"
 }
 ```
+
+2. Yes/No Questions output yes/no to me instead of relevant evidence
+```python
+{
+    'id':             '572ea6d5cb0c0d14000f13f1',
+    'question':       'Is Canada bilingual?',
+    'answer_text':    'United States never developed bilingualism as Canada did.',
+}
+
+```
+
+3. Choices output the choice to me instead of relevant evidence
+```python
+{
+    'id':             '572782e0708984140094dfa6',
+    'question':       'What is more important for a textual critic: quality or quantity?',
+    'answer_text':    'Readings are approved or rejected by reason of the quality, and not the number, of their supporting witnesses',
+                      # just evidance
+}
+```
+
+```python
+{
+    'id':             '56de30cdcffd8e1900b4b650',
+    'answer_text':    'very high',
+    'question':       'Is the top quartile of HDI considered "high" or "very high" human development?'
+                      # this is a span answer though
+}
+```
+             
+
 
 # Trying to translate to Chinese
 
