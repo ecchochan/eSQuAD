@@ -30,7 +30,7 @@ Let's dive into the dataset, and we can easily find that we have different types
 | 9  | X or Y        | 💕 Decide based on choice | - Are written records of Old Dutch rare or common?<br>- Is Afrikaans more or less complex compared to Dutch?                                                                                                                                  |
 | 10 | Is it         | 👌 Yes/No                 | - Does chicken contain fat?<br>- did the word "computer" take its well known meaning of today?                                                                                                                                                |
 
-Few interesting questions though:
+## Few interesting questions though:
 
 
 ```python
@@ -42,7 +42,40 @@ Few interesting questions though:
 
 ```
 
-# Errors
+# Unexpected QA
+
+## Arabic numbers chosen but not the word
+
+```python
+{
+    "id":             "56e0914c7aa994140058e5f8",
+    "context":        "... there are over 100 binary borane hydrides known, but only one binary aluminium hydride ..."
+    "question":       "How many binary aluminum hydrides are there?",
+    "answer_text":    "1",
+                      # should be "only one"
+}
+```
+
+## Not wrong... but just not exactly
+
+```python
+{
+    "id":             "56e092177aa994140058e5fe",
+    "question":       "What do hydrides that are bridging ligands link up?",
+    "answer_text":    "link two metal centers",
+                      # should be "two metal centers"
+}
+```
+
+```python
+{
+    "id":             "57268af3dd62a815002e88eb",
+    "question":       "When did the term for the people of Burma become a common place word in English?",
+    "answer_text":    "The name Burma has been in use in English since the 18th century",
+                      # should be "since the 18th century"
+}
+```
+## Errors
 
 This is a crowdsourced work and contains errors in it:
 
@@ -75,7 +108,8 @@ This is a crowdsourced work and contains errors in it:
 
 # Missing Information I want to recover
 
-1. Some answers actually can contain richer numberic answer, but some also cant:
+## Richer information
+Some answers actually can contain richer numberic answer, but some also cant:
 
 ```python
 {
@@ -95,7 +129,8 @@ This is a crowdsourced work and contains errors in it:
 }
 ```
 
-2. Yes/No Questions output yes/no to me instead of relevant evidence
+## Yes/No Questions
+I want Yes/No Questions output yes/no to me instead of relevant evidence
 ```python
 {
     'id':             '572ea6d5cb0c0d14000f13f1',
@@ -105,7 +140,8 @@ This is a crowdsourced work and contains errors in it:
 
 ```
 
-3. Choices output the choice to me instead of relevant evidence
+## Choices Question
+I want Choices Questions output the choice to me instead of relevant evidence
 ```python
 {
     'id':             '572782e0708984140094dfa6',
@@ -130,15 +166,15 @@ This is a crowdsourced work and contains errors in it:
 
 Using Google Translate (transforming the text into HTML with answer spans enclosed with a <span id="xxx">), I get a copy of SQuAD in Chinese. For sure, it contains quite a lot of non-senses:
 
-1. Answer span is shifted:
+## Answer span shifted
 
 ```python
 {
     "id":               "56d1196917492d1400aab93f",
-    "question":         "百老匯與哪個行業有關？",
-    "answer_text":      "是劇院",
     "question_orig":    "What industry is Broadway associated with?",
     "answer_text_orig": "the theater",
+    "question":         "百老匯與哪個行業有關？",
+    "answer_text":      "是劇院",
                         # should be "劇院"
 }
     
@@ -147,10 +183,10 @@ Using Google Translate (transforming the text into HTML with answer spans enclos
 ```python
 {
     "id":               "56cf3e29aab44d1400b88ed4",
-    "question":         "昆騰是其他哪個組織的部門？",
-    "answer_text":      "幽靈》還是",
     "question_orig":    "Quantum is a division of what other organization? ",
     "answer_text_orig": "Spectre",
+    "question":         "昆騰是其他哪個組織的部門？",
+    "answer_text":      "幽靈》還是",
                         # should be "幽靈"
 }
 ```
@@ -158,10 +194,10 @@ Using Google Translate (transforming the text into HTML with answer spans enclos
 ```python
 {
     "id":               "56df322e96943c1400a5d2d5",
-    "question":         "納薩拉（Nasara）一詞何時在現代得到更多使用？",
-    "answer_text":      "2014",
     "question_orig":    "When did the term Nasara become used more in modern times?",
     "answer_text_orig": "July 2014",
+    "question":         "納薩拉（Nasara）一詞何時在現代得到更多使用？",
+    "answer_text":      "2014",
                         # should be "2014年7月"
 }
 ```
@@ -171,24 +207,25 @@ Why here? :(
 ```python
 {
     "id":               "56e42e3739bdeb1400347920",
-    "question":         "舊式拼字法是從哪個其他國家的拼字法獲得的依據？",
-    "answer_text":      "拼字法是",
     "question_orig":    "From what other country's orthography did the Older Orthography get its basis?",
     "answer_text_orig": "standard German orthography",
+    "question":         "舊式拼字法是從哪個其他國家的拼字法獲得的依據？",
+    "answer_text":      "拼字法是",
+                        # should be "標準的德國拼字法"
 }
 ```
 
 
-OK this should be my bad
 
-2. Not enough information for Google translate to infer the correct translation
+## Incorrect Translation
+Not enough information for Google translate to infer the correct translation
 
 ```python
 {
     "id":          "573403a24776f419006616ef",
+    "context":     "The fairs held at the shrines of Sufi saints are called urs. ...",
     "question":    "What are urs?",
     "question-zh": "什麼是我們的？",
-    "context":     "The fairs held at the shrines of Sufi saints are called urs. ..." 
 }
 ```
 
@@ -196,17 +233,25 @@ Google is trying to be smart though XD
 
 
 
-3. Mentioned above the interesting question. Asking the word in English when there is only Chinese
+## Tailored Questions in English
 
 
-4. Chinese just do not speak like English since we are not mapping word to word
+```python
+{
+    "id":          "57344d20acc1501500babdd2",
+    "question":    "What does the Indian word \"shikaris\" mean in English?",
+    "answer_text": "big-game hunters",
+}
+```
+
+## Chinese just do not speak like English since we are not mapping word to word
 
 ```python
     "id":               "56d23d72b329da140004ec4c",
+    "context":          "Regarding the monastic rules, the Buddha constantly reminds his hearers that it is the spirit that counts. ...",
     "question":         "佛陀提醒他的聽眾，那是什麼精神？",
     "question_orig":    "the Buddha reminds his hearers that it is the spirit that what?",
     "answer_text_orig": "counts",
-    "context":          "Regarding the monastic rules, the Buddha constantly reminds his hearers that it is the spirit that counts. ..."
 }
 
 ```
