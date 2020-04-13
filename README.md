@@ -34,7 +34,7 @@ Among these answers, the answers Yes and No constitute 78.8%. The next majority 
 (leaderboard: https://stanfordnlp.github.io/coqa/)
 
 
-# boolQ
+## boolQ
  - Boolean Q
  - 15942 QAs
  - annotated with yes/no answer
@@ -43,7 +43,7 @@ Among these answers, the answers Yes and No constitute 78.8%. The next majority 
 (reference: https://github.com/google-research-datasets/boolean-questions)
 
 
-# mutlirc-v2
+## mutlirc-v2
  - Reading Comprehension over Multiple Sentences
  - Multiple choice questions
  - More than 1 valid choice in each question
@@ -51,7 +51,7 @@ Among these answers, the answers Yes and No constitute 78.8%. The next majority 
 
 
 
-# HotpotQA
+## HotpotQA
 
  - multi-hop questions, with strong supervision for supporting facts
  - free-form
@@ -59,7 +59,7 @@ Among these answers, the answers Yes and No constitute 78.8%. The next majority 
 (leaderboard: https://hotpotqa.github.io/)
 
 
-# RACE
+## RACE
 
  - **R**e**A**ding **C**omprehension dataset collected from **E**nglish Examinations
  - Multiple choice questions
@@ -67,7 +67,7 @@ Among these answers, the answers Yes and No constitute 78.8%. The next majority 
 
 (leaderboard: http://www.qizhexie.com/data/RACE_leaderboard.html)
 
-# ReCoRD
+## ReCoRD
 
  - Reading Comprehension with Commonsense Reasoning Dataset
 
@@ -76,7 +76,7 @@ Among these answers, the answers Yes and No constitute 78.8%. The next majority 
 
 
 
-# cmrc2018
+## cmrc2018
 
  - span extraction
 
@@ -87,7 +87,7 @@ Best F1: 88.145
 
 
 
-# cmrc2019
+## cmrc2019
 
  - Fill in the blanks with sentences from choices
  
@@ -97,7 +97,7 @@ Best dev PAC: 60.0
 Best dev QAC: 90.93
 
 
-## Types of QAs
+# Types of QAs
 
 Let's dive into the dataset, and we can easily find that we have different types of questions:
 
@@ -117,7 +117,7 @@ Let's dive into the dataset, and we can easily find that we have different types
 
 
 
-### Few interesting questions though:
+## Few interesting questions though:
 
 
 ```python
@@ -136,9 +136,9 @@ Let's dive into the dataset, and we can easily find that we have different types
 
 
 
-## Dataset mismatch
+# Dataset mismatch
 
-### Richer information
+## Richer information
 Some answers actually can contain richer numeric answer, but some also cant:
 
 ```python
@@ -170,7 +170,7 @@ Fail case:
 }
 ```
 
-### Yes/No Questions
+## Yes/No Questions
 Yes/No Questions should output yes/no to me, but SQuAD gives relevant evidence
 ```python
 {
@@ -182,7 +182,7 @@ Yes/No Questions should output yes/no to me, but SQuAD gives relevant evidence
 
 ```
 
-### Choice Question
+## Choice Question
 Choice questions should output the choice to me, but SQuAD gives relevant evidence
 ```python
 {
@@ -202,7 +202,7 @@ Choice questions should output the choice to me, but SQuAD gives relevant eviden
 }
 ```
 
-### Conversational Question 
+## Conversational Question 
 
 Only in CoQA, Questions will depend on previous questions.
 
@@ -221,7 +221,7 @@ Only in CoQA, Questions will depend on previous questions.
 
 
            
-### Multuple answer Extraction
+## Multuple answer Extraction
 
 QAs with multiple answers naturally occur in the datasets, but they are span-answer.
 
@@ -241,9 +241,9 @@ QAs with multiple answers naturally occur in the datasets, but they are span-ans
 
 
 
-## Unexpected QA
+# Unexpected QA
 
-### Typos
+## Typos
 
 All datasets are crowdsourced and contains typos.
 
@@ -253,7 +253,7 @@ e.g. Were they hungry --> where they hungry
 
 
 
-### Arabic numbers chosen but not the word
+## Arabic numbers chosen but not the word
 
 ```python
 {
@@ -265,7 +265,7 @@ e.g. Were they hungry --> where they hungry
 }
 ```
 
-### Not wrong... but just not exactly
+## Not wrong... but just not exactly
 
 ```python
 {
@@ -284,7 +284,7 @@ e.g. Were they hungry --> where they hungry
                       # should be "since the 18th century"
 }
 ```
-### Errors
+## Errors
 
 This is a crowdsourced work and contains errors in it:
 
