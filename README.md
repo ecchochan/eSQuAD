@@ -31,6 +31,7 @@ An important feature of the CoQA dataset is that the answer to some of its quest
 Among these answers, the answers Yes and No constitute 78.8%. The next majority is 14.3% of answers which are edits to text span to improve fluency. The rest includes 5.1% for counting and 1.8% for selecting a choice from the question.
 
 (paper: https://arxiv.org/abs/1909.10772)
+
 (leaderboard: https://stanfordnlp.github.io/coqa/)
 
 
@@ -40,6 +41,7 @@ Among these answers, the answers Yes and No constitute 78.8%. The next majority 
  - annotated with yes/no answer
 
 (paper: https://arxiv.org/abs/1905.10044)
+
 (reference: https://github.com/google-research-datasets/boolean-questions)
 
 
@@ -47,6 +49,7 @@ Among these answers, the answers Yes and No constitute 78.8%. The next majority 
  - Reading Comprehension over Multiple Sentences
  - Multiple choice questions
  - More than 1 valid choice in each question
+
 (leaderboard: https://cogcomp.seas.upenn.edu/multirc/)
 
 
@@ -171,7 +174,9 @@ Fail case:
 ```
 
 ## Yes/No Questions
-Yes/No Questions should output yes/no to me, but SQuAD gives relevant evidence
+
+Yes/No Questions should output yes/no to me, but SQuAD gives relevant evidence.
+
 ```python
 {
     'id':             '572ea6d5cb0c0d14000f13f1',
@@ -418,12 +423,27 @@ More:
 
 
 
+# Data Augmentation
+
+## Unanswerable yes/no QAs
+
+Since unanswerable QA pairs come mainly from SQuAD 2.0, there are very few unanswerable yes/no questions. We augment data from boolQ.
 
 
 
+## Unanswerable MC QAs
+
+Since unanswerable QA pairs come mainly from SQuAD 2.0, there are very few unanswerable MC questions. We augment data from RACE and multirc.
 
 
-# Approach
+
+## Unanswerable span QAs
+
+To further balance the number of unanswerable QAs, we trim paragraphs from HotPotQA such that there are not enough information to infer the answer.
+
+
+
+# Model Approach
 
 ## Reference
 
@@ -437,8 +457,8 @@ More:
 
 ## Proposed Solutions
 
-## span+head+
 
+### span+head
 
 Use roBERTa / XLMR / alBERT as LM
 
@@ -459,5 +479,5 @@ Use roBERTa / XLMR / alBERT as LM
 
 
 **Loss**
- 1. softmax over span start and end
+ 1. softmax over span start and end (choice or yes/no = span answer)
  2. answerable 1 or 0
