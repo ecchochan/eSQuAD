@@ -2,18 +2,102 @@
 extra SQuAD
 
 
-# Background
 
-Stanford Question Answering Dataset (SQuAD) is a reading comprehension dataset, consisting of questions posed by crowdworkers on a set of **Wikipedia articles**, where the answer to every question is a segment of text, or span, from the corresponding reading passage, or the question might be unanswerable.
+# Datasets
+## SQuAD 2.0
+
+ - Stanford Question Answering Dataset (SQuAD)
+ - from **Wikipedia articles**
+ - ~100,000 + ~50,000 (no answer) QAs
+ - annotated with:
+     1. span answer
+     2. not given by passage
 
 
-From the official text, we know there are **mainly 2 types of answers**:
-
-1. span answer
-2. Not given by passage
+(leaderboard: https://rajpurkar.github.io/SQuAD-explorer/)
 
 
-# What's next
+
+## CoQA
+
+ - A Conversational Question Answering Challenge
+ - conversational QA (i.e. asking questions depending on previous asked questions)
+ - ~127,000 QAs
+ - annotated with free-form
+ 
+
+An important feature of the CoQA dataset is that the answer to some of its questions could be free-form. Therefore, around 33.2% of the answers do not have an exact match subsequence in the given passage. 
+
+Among these answers, the answers Yes and No constitute 78.8%. The next majority is 14.3% of answers which are edits to text span to improve fluency. The rest includes 5.1% for counting and 1.8% for selecting a choice from the question.
+
+(paper: https://arxiv.org/abs/1909.10772)
+(leaderboard: https://stanfordnlp.github.io/coqa/)
+
+
+# boolQ
+ - Boolean Q
+ - 15942 QAs
+ - annotated with yes/no answer
+
+(paper: https://arxiv.org/abs/1905.10044)
+(reference: https://github.com/google-research-datasets/boolean-questions)
+
+
+# mutlirc-v2
+ - Reading Comprehension over Multiple Sentences
+ - Multiple choice questions
+ - More than 1 valid choice in each question
+(leaderboard: https://cogcomp.seas.upenn.edu/multirc/)
+
+
+
+# HotpotQA
+
+ - multi-hop questions, with strong supervision for supporting facts
+ - free-form
+
+(leaderboard: https://hotpotqa.github.io/)
+
+
+# RACE
+
+ - **R**e**A**ding **C**omprehension dataset collected from **E**nglish Examinations
+ - Multiple choice questions
+
+
+(leaderboard: http://www.qizhexie.com/data/RACE_leaderboard.html)
+
+# ReCoRD
+
+ - Reading Comprehension with Commonsense Reasoning Dataset
+
+(leaderboard: http://www.qizhexie.com/data/RACE_leaderboard.html)
+
+
+
+
+# cmrc2018
+
+ - span extraction
+
+(leaderboard: https://hfl-rc.github.io/cmrc2019/leaderboard)
+
+Best EM: 74.178
+Best F1: 88.145
+
+
+
+# cmrc2019
+
+ - Fill in the blanks with sentences from choices
+ 
+(leaderboard: https://hfl-rc.github.io/cmrc2019/leaderboard)
+
+Best dev PAC: 60.0
+Best dev QAC: 90.93
+
+
+## Types of QAs
 
 Let's dive into the dataset, and we can easily find that we have different types of questions:
 
@@ -30,7 +114,10 @@ Let's dive into the dataset, and we can easily find that we have different types
 | 9  | X or Y        | 💕 Decide based on choice | - Are written records of Old Dutch rare or common?<br>- Is Afrikaans more or less complex compared to Dutch?                                                                                                                                  |
 | 10 | Is it         | 👌 Yes/No                 | - Does chicken contain fat?<br>- did the word "computer" take its well known meaning of today?                                                                                                                                                |
 
-## Few interesting questions though:
+
+
+
+### Few interesting questions though:
 
 
 ```python
@@ -42,9 +129,131 @@ Let's dive into the dataset, and we can easily find that we have different types
 
 ```
 
-# Unexpected QA
 
-## Arabic numbers chosen but not the word
+
+
+
+
+
+
+## Dataset mismatch
+
+### Richer information
+Some answers actually can contain richer numeric answer, but some also cant:
+
+```python
+{
+    "id":             "5709ee056d058f1900182c37",
+    "question":       "What was the monetary base value in 1994?",
+    "answer_text":    "400 billion dollars",
+                      # better be "approximately 400 billion dollars"
+}
+```
+
+```python
+{
+    "id":             "570a4f184103511400d59605",
+    "question":       "How much did the Grimm claim his employers said he should raise in grant money per year?",
+    "answer_text":    "£200,000",
+                      # better be "at least £200,000"
+}
+```
+
+Fail case:
+
+```python
+{
+    "id":             "570a4f184103511400d59605",
+    "question":       "How much did the Grimm claim his employers said he should raise in grant money per year?",
+    "answer_text":    "£200,000. The amount is just roughly",
+                      # better be "£200,000 roughly"
+}
+```
+
+### Yes/No Questions
+Yes/No Questions should output yes/no to me, but SQuAD gives relevant evidence
+```python
+{
+    'id':             '572ea6d5cb0c0d14000f13f1',
+    'question':       'Is Canada bilingual?',
+    'answer_text':    'United States never developed bilingualism as Canada did.',
+                      # just evidance
+}
+
+```
+
+### Choice Question
+Choice questions should output the choice to me, but SQuAD gives relevant evidence
+```python
+{
+    'id':             '572782e0708984140094dfa6',
+    'question':       'What is more important for a textual critic: quality or quantity?',
+    'answer_text':    'Readings are approved or rejected by reason of the quality, and not the number, of their supporting witnesses',
+                      # just evidance
+}
+```
+
+```python
+{
+    'id':             'fake',
+    'question':       'Is the top quartile of HDI considered "high" or "very high" human development?'
+    'answer_text':    'extremely high',
+                      # this is a span answer though
+}
+```
+
+### Conversational Question 
+
+Only in CoQA, Questions will depend on previous questions.
+
+```python
+{
+    'id':             '573426864776f41900661980',
+    'question':       'What year was Montana's statehood approved?'
+    'answer_text':    '1889',
+},
+{
+    'id':             '573426864776f41900661980',
+    'question':       'What year was Montana's statehood approved? What other three states were approved in the same year?'
+    'answer_text':    'North Dakota, South Dakota and Washington',
+},
+```
+
+
+           
+### Multuple answer Extraction
+
+QAs with multiple answers naturally occur in the datasets, but they are span-answer.
+
+```python
+{
+    'id':             'fake',
+    "context":        "... Peter is good at basketball, and he excels at volleyball too ..."
+    'question':       'Peter is good at playing what sport?'
+    'answer_text':    'basketball, and he excels at volleyball',
+                      # should be "basketball" and "volleyball"
+}
+```
+
+
+
+
+
+
+
+## Unexpected QA
+
+### Typos
+
+All datasets are crowdsourced and contains typos.
+
+e.g. think --> tink
+e.g. Were they hungry --> where they hungry
+
+
+
+
+### Arabic numbers chosen but not the word
 
 ```python
 {
@@ -56,7 +265,7 @@ Let's dive into the dataset, and we can easily find that we have different types
 }
 ```
 
-## Not wrong... but just not exactly
+### Not wrong... but just not exactly
 
 ```python
 {
@@ -75,7 +284,7 @@ Let's dive into the dataset, and we can easily find that we have different types
                       # should be "since the 18th century"
 }
 ```
-## Errors
+### Errors
 
 This is a crowdsourced work and contains errors in it:
 
@@ -108,91 +317,6 @@ This is a crowdsourced work and contains errors in it:
 ```
 
 
-# Missing Information I want to recover
-
-## Richer information
-Some answers actually can contain richer numberic answer, but some also cant:
-
-```python
-{
-    "id":             "5709ee056d058f1900182c37",
-    "question":       "What was the monetary base value in 1994?",
-    "answer_text":    "400 billion dollars",
-                      # better be "approximately 400 billion dollars"
-}
-```
-
-```python
-{
-    "id":             "570a4f184103511400d59605",
-    "question":       "How much did the Grimm claim his employers said he should raise in grant money per year?",
-    "answer_text":    "£200,000",
-                      # better be "at least £200,000"
-}
-```
-
-## Yes/No Questions
-I want Yes/No Questions output yes/no to me instead of relevant evidence
-```python
-{
-    'id':             '572ea6d5cb0c0d14000f13f1',
-    'question':       'Is Canada bilingual?',
-    'answer_text':    'United States never developed bilingualism as Canada did.',
-}
-
-```
-
-## Choices Question
-I want Choices Questions output the choice to me instead of relevant evidence
-```python
-{
-    'id':             '572782e0708984140094dfa6',
-    'question':       'What is more important for a textual critic: quality or quantity?',
-    'answer_text':    'Readings are approved or rejected by reason of the quality, and not the number, of their supporting witnesses',
-                      # just evidance
-}
-```
-
-```python
-{
-    'id':             '56de30cdcffd8e1900b4b650',
-    'question':       'Is the top quartile of HDI considered "high" or "very high" human development?'
-    'answer_text':    'very high',
-                      # this is a span answer though
-}
-```
-
-## Conversational Question 
-
-Actually there is another dataset CoQA, check it out!
-
-```python
-{
-    'id':             '573426864776f41900661980',
-    'question':       'What year was Montana's statehood approved?'
-    'answer_text':    '1889',
-},
-{
-    'id':             '573426864776f41900661980',
-    'question':       'What year was Montana's statehood approved? What other three states were approved in the same year?'
-    'answer_text':    'North Dakota, South Dakota and Washington',
-},
-```
-
-
-           
-## Multuple answer Extraction
-Since sometimes we have more than 1 correct answer, and they may not be placed together.
-
-```python
-{
-    'id':             'fake',
-    "context":        "... Peter is good at basketball, and he excels at volleyball too ..."
-    'question':       'Peter is good at playing what sport?'
-    'answer_text':    'basketball, and he excels at volleyball',
-                      # should be "basketball" and "volleyball"
-}
-```
 
 
 # Trying to translate to Chinese
@@ -235,8 +359,6 @@ Using Google Translate (transforming the text into HTML with answer spans enclos
 }
 ```
 
-Why here? :(
-
 ```python
 {
     "id":               "56e42e3739bdeb1400347920",
@@ -265,6 +387,10 @@ Not enough information for Google translate to infer the correct translation
 Google is trying to be smart though XD
 
 
+More:
+
+ - fried sole --> 油炸鞋底  (油炸比目魚)
+
 
 ## Tailored Questions in English
 
@@ -289,3 +415,49 @@ Google is trying to be smart though XD
 }
 
 ```
+
+
+
+
+
+
+
+
+# Approach
+
+## Reference
+
+ - span-extraction from LM
+   - alBERT
+   - roBERTa
+ 
+ - generative LM
+   - BART 
+
+
+## Proposed Solutions
+
+## span+head+
+
+
+Use roBERTa / XLMR / alBERT as LM
+
+**Input Representation**
+
+| [CLS] | **Context** | [SEP] |
+|-------|:-----------:|------:|
+
+
+| **Question**<br>**(history 1)** | [SEP] | ... | **Question**<br>**(history N)** | [SEP] | **Target** <br>**Question** | [SEP] | **Choice 1** | [SEP] | ... | **Choice N** | [SEP] |
+|---------------------------------|-------|-----|---------------------------------|-------|-----------------------------|-------|--------------|-------|-----|--------------|-------|
+
+
+
+**Output**
+ 1. Span-head (start + end)
+ 2. Answerable-head (CLS head)
+
+
+**Loss**
+ 1. softmax over span start and end
+ 2. answerable 1 or 0
