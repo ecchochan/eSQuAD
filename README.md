@@ -481,3 +481,17 @@ Use roBERTa / XLMR / alBERT as LM
 **Loss**
  1. softmax over span start and end (choice or yes/no = span answer)
  2. answerable 1 or 0
+
+
+
+
+### Possible System outputs
+
+ - [x] Information Extraction from span (single answer)
+ - [x] Yes/no (can be unanswerable) 
+ - [x] Best answer from given choice (single answer + can be unanswerable)
+ - [ ] Information Extraction from span (Multiple answers)
+ - [ ] Best answer from given choice (Multiple answers)
+ - [ ] Arithmetic problem (e.g. counting, datetime offset)
+
+
