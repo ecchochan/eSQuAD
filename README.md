@@ -3,6 +3,146 @@ extra SQuAD
 
 
 
+
+
+# Objective
+
+ - extract information to objects
+ 
+ ```
+I want a book, priced under $100
+
+>>
+  "want {sth}": { 
+    "sth: [{ name:     "book",
+             quantity:  1,
+             price:    { value: 100, approx: True } }]
+  }
+```
+ 
+ - extract multiple information 
+
+```
+Please a cheese burger and two apple pies.
+
+>>
+  "want {sth}": { 
+    "sth: [{ name: "cheese burger", quantity: 1 },
+           { name: "apple pies",    quantity: 2 }],
+  }
+```
+ 
+ - slot filling
+ 
+ 
+```
+can you please show me the way to toilet?
+
+>>
+  "where is {place}":{
+    "place": [{ name: "toilet" }]
+  }
+```
+ 
+ 
+ - fake information resistant
+ 
+ 
+```
+I have a book. It is in my my bedroom!
+
+>>
+  "want {sth}": { 
+    sth: []
+  },
+  "where is {place}":{
+    place: []
+  }
+```
+ 
+ - intention matching
+ 
+```
+I am a bit confused about the instruction. Can you show me?
+
+>>
+  "I want to know how to use it.": True
+}
+
+
+How I use it is not relevant.
+
+>>
+  "How to use it?": False
+
+```
+ 
+ 
+ 
+ - dialog  compatible 
+
+```
+A: What do you want?
+B: Do you have ice cream?
+
+>> # according to last line
+  "want {sth}": { 
+    sth: []
+  },
+  "Do you have {sth}":{
+    sth: [{ name: "ice cream" }]
+  }
+  "What flavor do you have?": False,
+
+
+A: What do you want?
+B: Do you have ice cream?
+A: Yes sure Do you want want some?
+B: Yep! what flavor do you have?
+
+>> # according to last line
+  "want {sth}": { 
+    "sth: [{"name": "ice cream"}]
+  },
+  "Do you have {sth}":{
+    "sth": []
+  },
+  "What flavor do you have?": True,
+
+
+
+```
+
+
+
+# Skill Coverage
+
+We should consider the diversity in :
+
+ 1. **vocabulary/sentence structure**
+ 2. **situations**
+ 3. **query types**
+
+
+# Types of Information 
+
+1. What
+2. How many
+3. When
+4. Where
+5. Yes/No
+6. Which (choice)
+7. Why
+
+
+
+
+
+
+
+
+
+
 # Datasets
 ## SQuAD 2.0
 
