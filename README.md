@@ -3,6 +3,17 @@ extra SQuAD
 
 
 
+# Findtune Workflow
+
+ - Have a pretrained model
+ - List out all the tasks
+ - 
+ - Distribution of available dataset
+ - Semi-balanced batches
+ - Mixout (instead of dropout)
+ - Early Stopping
+ - 
+
 
 
 # Objective
