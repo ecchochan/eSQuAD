@@ -3,16 +3,46 @@ extra SQuAD
 
 
 
-# Findtune Workflow
+# Finetune Workflow
+```markdown
+ - Tokenizer
+    - BPE
+    - Syntactic
 
- - Have a pretrained model
- - List out all the tasks
- - 
- - Distribution of available dataset
- - Semi-balanced batches
- - Mixout (instead of dropout)
- - Early Stopping
- - 
+
+ - Architecture
+    - roBERTa (multi-lingual!)
+
+    - alBERT (small model but slow)
+
+    - Reformer (sparse attention, no pretrained model yet)
+
+    - ELECTRA (different pretraining objective, 
+              lower budget on pretraining)
+
+    - BART (Generative, slow)
+
+    - SLIDE (CPU Deep Learning: faster than GPU)
+
+ - Data preparation:
+    - List out all the tasks
+    - Distribution of available dataset
+    - Semi-balanced batches
+
+ - Finetuning
+    - Mixout (instead of dropout)
+    - Early Stopping
+ 
+    - Answerablitiy
+       - Simple binary-classification
+       - Retro-reader verification
+
+ - Model Evaluations
+    - Model Accuracy
+    - Model Robustness
+        - Adversarial attack
+
+```
 
 
 
@@ -22,12 +52,12 @@ extra SQuAD
  
  ```
 I want a book, priced under $100
-
->>
+``` 
+```python
   "want {sth}": { 
-    "sth: [{ name:     "book",
-             quantity:  1,
-             price:    { value: 100, approx: True } }]
+    sth: [{ name:     "book",
+            quantity:  1,
+            price:    { value: 100, approx: True } }]
   }
 ```
  
@@ -35,11 +65,11 @@ I want a book, priced under $100
 
 ```
 Please a cheese burger and two apple pies.
-
->>
+``` 
+```python
   "want {sth}": { 
-    "sth: [{ name: "cheese burger", quantity: 1 },
-           { name: "apple pies",    quantity: 2 }],
+    sth: [{ name: "cheese burger", quantity: 1 },
+          { name: "apple pies",    quantity: 2 }],
   }
 ```
  
@@ -48,10 +78,10 @@ Please a cheese burger and two apple pies.
  
 ```
 can you please show me the way to toilet?
-
->>
+``` 
+```python
   "where is {place}":{
-    "place": [{ name: "toilet" }]
+    place: [{ name: "toilet" }]
   }
 ```
  
@@ -61,7 +91,8 @@ can you please show me the way to toilet?
  
 ```
 I have a book. It is in my my bedroom!
-
+``` 
+```python
 >>
   "want {sth}": { 
     sth: []
@@ -75,17 +106,15 @@ I have a book. It is in my my bedroom!
  
 ```
 I am a bit confused about the instruction. Can you show me?
-
->>
+``` 
+```python
   "I want to know how to use it.": True
-}
-
-
+```
+``` 
 How I use it is not relevant.
-
->>
+``` 
+```python
   "How to use it?": False
-
 ```
  
  
@@ -95,8 +124,10 @@ How I use it is not relevant.
 ```
 A: What do you want?
 B: Do you have ice cream?
+``` 
+```python
+# according to last line
 
->> # according to last line
   "want {sth}": { 
     sth: []
   },
@@ -104,47 +135,144 @@ B: Do you have ice cream?
     sth: [{ name: "ice cream" }]
   }
   "What flavor do you have?": False,
+```
 
 
+```
 A: What do you want?
 B: Do you have ice cream?
 A: Yes sure Do you want want some?
 B: Yep! what flavor do you have?
+``` 
+```python
+# according to last line
 
->> # according to last line
   "want {sth}": { 
-    "sth: [{"name": "ice cream"}]
+    sth: [{"name": "ice cream"}]
   },
   "Do you have {sth}":{
-    "sth": []
+    sth: []
   },
   "What flavor do you have?": True,
-
-
-
 ```
 
 
 
 # Skill Coverage
 
-We should consider the diversity in :
+We should consider the diversity in:
 
- 1. **vocabulary/sentence structure**
- 2. **situations**
- 3. **query types**
+1. **Lingual properties**
+2. **Situations**
+3. **QA combinations**
+
+---
+### **Lingual properties**
+
+```yaml
+1. Vocabulary
+   - Words   # similar words
+   - Phrases # different meanings combined with other words
+   - Tenses  # different meanings in different word form
+   - Prepositions
+   - Pronouns
+   - (colloquial) discourse markers/stops # uh.. hm..
+
+2. Sentence structure
+   - Reposition without altering the meaning
+   - Relative clause
+   - If-clause
+
+```
+---
+### **Situations**
 
 
-# Types of Information 
+```yaml
+1. Format Texts
+   - Wikipedia
+   - Book
+   - News
+   - Documents
+   - Manuals
 
-1. What
-2. How many
-3. When
-4. Where
-5. Yes/No
-6. Which (choice)
-7. Why
+2. Colloquial
+   - Daily Conversations
+   - Forums
+   - Speech / Presentation
+   - Oral report
+   - (Artifect)
 
+3. Datasheet
+   - Form
+   - Table
+   - Lists
+```
+
+
+---
+### **QA combinations**
+
+```yaml
+1. Question structure
+    - Single question (Standard wh-)
+        # When did Jena leave?
+    - Single question (Statement + wh-)
+        # Jena leave at what time?
+    - Single question (Statement + wh-[hidden]) 
+        # Jena leave at?     (can be ambiguous: time? place?)
+    - Fill in the blank 
+        # Jena leave at ___? (can be ambiguous: time? place?)
+    - Based on previous questions
+    - Form filling (dependent fields)
+        ##################################
+        ## What is broken : Two apples
+        ##################################
+
+        ##################################
+        ## What is broken : apples
+        ## How many are broken : Two
+        ##################################
+
+2. Mentioned with answer?
+    - Yes
+    - No
+    - (dialog) do not want to answer
+    - (dialog) forgot
+
+3. Answer scope
+    - Mentioned # Exact
+    - Mentioned # Inexact
+    - Mentioned # Don't know
+    - Mentioned # Depends
+
+4. Number of answers
+    - Single    # Who made the mistake? Alfar 
+    - Multiple  # Who corrected the mistake? Begal, Tena, Seca 
+
+5. Information provided
+    - What
+      - Which subject
+      - Definition
+    - How many / How much # Integers/Decimals
+      - Mentioned # two apple / $40.1 / half a dollar
+      - Singular  # an apple / the apple / costs a dollar
+      - Counting  # Mary and another 9 students
+      - Relative  # Half of the population
+    - When
+      - Year/Month/Day, Hour/Minute/Second
+      - from X to Y
+      - Relative # the first sunday of the next month
+    - How long
+      - Year/Month/Day, Hour/Minute/Second
+      - Relative # a year more than she does
+    - Where
+      - Relative # The red booth inside the party
+      - Directional # North of Dehamber
+    - Yes/No/mentioned to be unknown/Depends
+    - Which # choice
+    - Why
+```
 
 
 
